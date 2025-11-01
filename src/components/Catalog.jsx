@@ -34,4 +34,26 @@ useEffect(() => {
     return () => clearInterval(interval); 
 }, []);  
 
+const updateFilter = (k, v) => setFilters(prev => ({...prev, [k]: v})); 
+const addToCart = product => setCart(prev => [...prev, product]); 
+
+
+return ( 
+    <div className="p-6">
+        <h1 className="text-3xl font-bold mb-4">Mini Storefront</h1>
+
+    <div className= "flex gap-4 mb-6">
+        <CategoryFilter value={filters.category} onChange={v => updateFilter('category', v)} />
+        <PriceFilter value={filters.price} onChange={v => updateFilter('price', v)} /> 
+    </div> 
+
+    <CartSummary cart={cart}/> 
+    {status === 'loading' && <StatusMessage text="Loading products..." />}
+    {status === 'error' && <StatusMessage text="Error loading products" />}
+
+{status === 'success' && (
+    <ProductList products={products} filters={filters} addToCart={addToCart} />
+)}
+</div>
+);
 
